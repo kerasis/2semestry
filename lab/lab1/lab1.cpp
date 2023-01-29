@@ -26,7 +26,6 @@ private:
     }
 
 public:
-    std::string* pt = &m_text;
     
     AnimatedText()
     {
@@ -49,7 +48,7 @@ public:
         return (m_duration);
     }
 
-    std::string showElementOfText(std::string& m_text) 
+    std::string showElementOfText() 
     {
         m_currentDuration++;
         std::string curSymbol = m_text.substr(0,m_currentDuration);
@@ -62,10 +61,7 @@ int main()
     AnimatedText at;
     int duration = (at.getDurarion());
     at.showString();
-    /*for (int i = 0; i < duration; i++)
-    {
-        std::cout << at.showElementOfText(*(at.pt));
-    }*/
+    
 
     sf::RenderWindow window(sf::VideoMode(500, 500), "AnimatedText", sf::Style::Close);
     sf::Event event;
@@ -85,7 +81,7 @@ int main()
 
             for (int i = 0; i < (duration); i++)
             {
-                text.setString((at.showElementOfText(*(at.pt))));
+                text.setString(at.showElementOfText());
                 window.draw(text);
                 window.display();              
                 Sleep(1000);
