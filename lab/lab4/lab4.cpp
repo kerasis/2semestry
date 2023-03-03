@@ -26,21 +26,8 @@ public:
 
     ~Matrix() = default;
 
-    Matrix(const Matrix& other)
-    {
-        std::cout << "copyconst" << '\n';
-        if ((this->m_n == other.m_n) && (this->m_m == other.m_n))
-        {
-            for (int i = 0; i < other.m_n; i++)
-            {
-                for (int j = 0; j < other.m_m; j++)
-                {
-                    this->m_matrix[i][j] = other.m_matrix[i][j];
-                }
-            }
-        }
-    }
-
+    Matrix(const Matrix& other) = default;
+  
     Matrix& operator=(Matrix temp)
     {
         std::cout << " = " << '\n';
@@ -79,7 +66,7 @@ public:
     }
 
     template<int U, int V>
-    Matrix<T, N, V> operator*=(const Matrix<T, U, V>& other)
+    Matrix<T, N, V>& operator*=(const Matrix<T, U, V>& other)
     {
         Matrix<T, N, V> temp;
         for (int i = 0; i < N; i++)
@@ -96,12 +83,12 @@ public:
         return temp;
     }
    
-    int determinant() 
+    T determinant() 
     {
         if (M == N)
         {
             if (M == 1) { return m_matrix[0][0]; }
-            int d = 0;
+            T d = 0;
             int perm[N];
             std::vector<std::vector<T>> comb;
             comb.push_back({});
@@ -150,7 +137,7 @@ public:
         else
         {
             std::cout << "det doesn't exist" << '\n';
-            return -1;
+            return 0;
         }
     }
 
@@ -243,22 +230,25 @@ int main()
     std::cout << m;*/
 
 
-    //Matrix<int, 2, 3> m;
-    //Matrix<int, 3, 2> k;
-    //std::cin >> m;
-    //std::cin >> k;
-    //std::cout << "k*m:" << '\n';
-    ///* k *= m;
-    // std::cout << k;*/
-    //std::cout << (k * m);
-    //std::cout << "k*m det" << '\n';
-    //std::cout << (k * m).determinant();
+    Matrix<int, 2, 3> m;
+    Matrix<int, 3, 2> k;
+    std::cin >> m;
+    std::cin >> k;
+    std::cout << "k*m:" << '\n';
+     k *= m;
+     std::cout << k;
+    
+    
+    
+    std::cout << (k * m);
+    std::cout << "k*m det" << '\n';
+    std::cout << (k * m).determinant();
 
 
-    Matrix<int, 3, 3> p;
-    std::cin >> p;
-    std::cout << "p det" << '\n';
-    std::cout << (p).determinant();
+    //Matrix<int, 3, 3> p;
+    //std::cin >> p;
+    //std::cout << "p det" << '\n';
+    //std::cout << (p).determinant();
 
 
 
