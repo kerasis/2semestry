@@ -27,7 +27,7 @@ public:
     ~Matrix() = default;
 
     Matrix(const Matrix& other) = default;
-  
+
     Matrix& operator=(Matrix temp)
     {
         std::cout << " = " << '\n';
@@ -59,14 +59,8 @@ public:
     }
 
 
-    template<int U, int V>
-    Matrix<T, N, V> operator*(const Matrix<T, U, V>& other)
-    {
-        return (*this *= other);
-    }
-
-    template<int U, int V>
-    Matrix<T, N, V>& operator*=(const Matrix<T, U, V>& other)
+    template<int M, int V>
+    Matrix<T, N, M> operator*(const Matrix<T, M, V>& other)
     {
         Matrix<T, N, V> temp;
         for (int i = 0; i < N; i++)
@@ -82,8 +76,35 @@ public:
         }
         return temp;
     }
-   
-    T determinant() 
+
+  
+    Matrix<T, N, M>& operator*=(const Matrix<T, N, M>& other)
+    {
+        if ((N == M))
+        {
+            Matrix<T, N, M> temp;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    temp.m_matrix[i][j] = 0;
+                    for (int k = 0; k < N; k++)
+                    {
+                        temp.m_matrix[i][j] += (this->m_matrix[i][k] * other.m_matrix[k][j]);
+                    }
+                }
+            }
+            *this = temp;
+        }
+        else
+        {
+            std::cout << "incorrect matrix" << '\n';
+            
+        }
+        return *this;
+    }
+
+    T determinant()
     {
         if (M == N)
         {
@@ -116,10 +137,10 @@ public:
                 {
                     for (int k = 0; k < j; k++)
                     {
-                        if (comb[i][k] > comb[i][j]) { inversions+=1; }
+                        if (comb[i][k] > comb[i][j]) { inversions += 1; }
                     }
                 }
-                
+
                 //счиаем промежуточное значение, одно из слагаемых определителя, и взависимости от четности прибавляем/вычитаем из итогового значения определтеля
                 T prom = 1;
                 for (int x = 0; x < N; x++)
@@ -130,9 +151,9 @@ public:
                 if (inversions % 2 == 0) { d += prom; }
                 else { d -= prom; }
             }
-           
+
             return d;
-            
+
         }
         else
         {
@@ -201,21 +222,15 @@ int main()
 {
     /*Matrix<int, 2, 2> m;
     Matrix<int, 2, 2> k;
-
     std::cin >> m;
-
-
     Matrix<int, 2, 2> b;
     b = m;
     std::cout << '\n';
     std::cout << b;
-
-
     std::cin >> k;
     k += m;
     std::cout << "k+=m:" << '\n';
     std::cout << k;
-
     std::cout << "k+m:" << '\n';
     std::cout << (k + m);
     std::cout << "m[1][2]" << " " << m(1, 2)<<'\n';
@@ -223,26 +238,25 @@ int main()
     std::cout << "m[1][2]" << " " << m(1, 2)<<'\n';*/
 
     /* Matrix<int, 2, 3> m;
-
     std::cin >> m;
     std::cout << m<< ' ';
     ++m;
     std::cout << m;*/
 
 
-    Matrix<int, 2, 3> m;
-    Matrix<int, 3, 2> k;
+    Matrix<int, 3, 3> m;
+    Matrix<int, 3, 3> k;
     std::cin >> m;
     std::cin >> k;
     std::cout << "k*m:" << '\n';
-     k *= m;
-     std::cout << k;
     
-    
-    
-    std::cout << (k * m);
+    std::cout << k*m;
+
+
+
+   /* std::cout << (k * m);
     std::cout << "k*m det" << '\n';
-    std::cout << (k * m).determinant();
+    std::cout << (k * m).determinant();*/
 
 
     //Matrix<int, 3, 3> p;
@@ -250,7 +264,5 @@ int main()
     //std::cout << "p det" << '\n';
     //std::cout << (p).determinant();
 
-
-
-
 }
+
